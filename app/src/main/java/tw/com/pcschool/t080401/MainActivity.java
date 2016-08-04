@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,18 +39,24 @@ public class MainActivity extends AppCompatActivity {
         try {
             Log.d("READ", result.toString("UTF-8"));
             String str = result.toString("UTF-8");
+            /*
             JSONArray array = new JSONArray(str);
             for (int i=0;i<array.length();i++)
             {
                 JSONObject obj = array.getJSONObject(i);
                 Log.d("READ", obj.getString("district") + "," + obj.getString("address") + "," + obj.getString("tel"));
             }
+*/
+            Gson gson = new Gson();
+            ArrayList<Animal> mylist = gson.fromJson(str, new TypeToken<ArrayList<Animal>>() {}.getType());
 
+            for (Animal p : mylist)
+            {
+                Log.d("NET", p.district + "," + p.address + "," + p.tel);
+            }
 
 
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
